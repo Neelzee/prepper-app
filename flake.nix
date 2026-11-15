@@ -14,36 +14,37 @@
     flake-utils.lib.eachDefaultSystem (system:
         let
         pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ (import rust-overlay) ];
+          inherit system;
+          overlays = [ (import rust-overlay) ];
         };
 
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-        extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
+          extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
         };
 
         libraries = with pkgs; [
-        webkitgtk_4_1
-        gtk3
-        cairo
-        gdk-pixbuf
-        glib
-        dbus
-        openssl
-        librsvg
-        libsoup_3
-        libayatana-appindicator
+          webkitgtk_4_1
+          gtk3
+          cairo
+          gdk-pixbuf
+          glib
+          dbus
+          openssl
+          librsvg
+          libsoup_3
+          libayatana-appindicator
         ];
   in
   {
     devShells.default = pkgs.mkShell {
       nativeBuildInputs = with pkgs; [
         pkg-config
-          gobject-introspection
-          wrapGAppsHook3
-          rustToolchain
-          nodejs_22
-          cargo-tauri
+        gobject-introspection
+        wrapGAppsHook3
+        rustToolchain
+        nodejs_22
+        cargo-tauri
+        pnpm
       ];
 
       buildInputs = libraries;
