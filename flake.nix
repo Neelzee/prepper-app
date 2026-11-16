@@ -45,6 +45,13 @@
         nodejs_22
         cargo-tauri
         pnpm
+        tailwindcss_4
+        esbuild
+        openapi-generator-cli
+        diesel-cli
+        playwright-driver.browsers
+        just
+        openssl
       ];
 
       buildInputs = libraries;
@@ -53,8 +60,10 @@
         export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath libraries}:$LD_LIBRARY_PATH"
         export XDG_DATA_DIRS="${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsetting
         s-schemas/${pkgs.gtk3.name}:$XDG_DATA_DIRS"
-# Work around blank window / EGL issues with WebKitGTK on some NixOS setups
+        # Work around blank window / EGL issues with WebKitGTK on some NixOS setups
         export WEBKIT_DISABLE_DMABUF_RENDERER=1
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+        PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
         '';
     };
   });
