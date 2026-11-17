@@ -26,4 +26,4 @@ dist-ssr
 .direnv
 .vscode
 */target
-./prepper-backend/static/calendar.ics
+prepper-backend/static/calendar.ics
