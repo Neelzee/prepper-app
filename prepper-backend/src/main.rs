@@ -2,7 +2,7 @@ use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use actix_files::NamedFile;
 use anyhow::{Result, anyhow};
 use chrono::{Days, Duration, Utc};
-use ics::{Alarm, Event, ICalendar, properties::{Action, Description, DtEnd, DtStart, Summary, Trigger}};
+use ics::{Alarm, Event, ICalendar, properties::{Action, Description, DtEnd, DtStart, Name, Summary, Trigger}};
 
 const FILE_PATH: &'static str = "./static/calendar.ics";
 const DTSTAMP_FORMAT: &'static str = "%Y%m%dT%H%M%SZ";
@@ -31,7 +31,7 @@ fn create_calendar() -> Result<()> {
 
     let mut event = Event::new(uuid::Uuid::new_v4().to_string(), now.format(DTSTAMP_FORMAT).to_string());
     event.push(Summary::new("Testing calendar!! Summary"));
-    event.push(Description::new("Super test! Content"));
+    event.push(Description::new("Super test! Description"));
     event.push(DtStart::new(start.format(DTSTAMP_FORMAT).to_string()));
     event.push(DtEnd::new(end.format(DTSTAMP_FORMAT).to_string()));
 
@@ -41,6 +41,7 @@ fn create_calendar() -> Result<()> {
 
     let mut cld = ICalendar::new("2.0", "-//prepper-app//EN");
     cld.add_event(event);
+    cld.push(Name::new("Test calendar name"));
 
     cld.save_file(FILE_PATH)?;
     Ok(())
