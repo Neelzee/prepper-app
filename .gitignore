@@ -37,3 +37,4 @@ pgadmin-data
 
 # Cargo build output in any crate
 target
+result
