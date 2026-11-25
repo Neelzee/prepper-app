@@ -1,0 +1,33 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix build .#docker-image
+      - name: Push to GHCR
+        run: |
+          creds="${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}"
+          dest=docker://ghcr.io/neelzee/prepper-backend
+          skopeo copy --dest-creds "$creds" docker-archive:result $dest:${{ github.sha }}
+          skopeo copy --dest-creds "$creds" docker-archive:result $dest:latest
+      - name: Deploy
+        env:
+          KEY: ${{ secrets.PREPPER_DEPLOY_KEY }}
+        run: |
+          install -m700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+          echo "nilsmf.no ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMqd6bAcvTxSnyEE9pPydnaj7SPuzalPvhyq+y+SGx2w" > ~/.ssh/known_hosts
+          ssh -o IdentitiesOnly=yes deploy-prepper@nilsmf.no "${{ github.sha }}"

@@ -1,0 +1,15 @@
+-- Your SQL goes here
+CREATE TABLE IF NOT EXISTS users (
+  id        SERIAL PRIMARY KEY,
+  username  TEXT NOT NULL UNIQUE,
+  pswd      TEXT
+);
+
+CREATE TABLE IF NOT EXISTS sessions (
+  id            SERIAL PRIMARY KEY,
+  user_id       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  expires_at    TIMESTAMPTZ NOT NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_seen_at  TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  user_agent    TEXT NOT NULL DEFAULT 'unknown'
+);

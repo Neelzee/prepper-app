@@ -27,3 +27,14 @@ dist-ssr
 .vscode
 */target
 prepper-backend/static/calendar.ics
+db-data
+pgadmin-data
+
+
+# Added by cargo
+
+/target
+
+# Cargo build output in any crate
+target
+result
