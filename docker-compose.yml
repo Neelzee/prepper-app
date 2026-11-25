@@ -1,0 +1,31 @@
+#https://github.com/felipewom/docker-compose-postgres/blob/main/docker-compose.yml
+services:
+  database:
+    image: 'postgres:18.6'
+    ports:
+      - 15432:5432
+    env_file:
+      - .env
+    networks:
+      - postgres-network
+    volumes:
+      - ${PWD}/db-data/:/var/lib/postgresql
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 15433:80
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - postgres-network
+    volumes:
+      # pgAdmin writes session data here. If startup fails with a permission
+      # error, set the host folder owner to 5050:5050 before starting.
+      - ${PWD}/pgadmin-data/:/var/lib/pgadmin/
+
+networks: 
+  postgres-network:
+    driver: bridge

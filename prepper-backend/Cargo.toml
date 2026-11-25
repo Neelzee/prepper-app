@@ -1,12 +1,24 @@
 [package]
 name = "prepper-backend"
-version = "0.1.0"
-edition = "2024"
+version.workspace = true
+edition.workspace = true
 
 [dependencies]
-actix-files = "0.7.4"
-actix-web = "4"
-anyhow = "1.0.104"
-chrono = "0.4.45"
-ics = "0.5.8"
-uuid = { version = "1.29.2", features = ["v4"] }
+actix-files.workspace = true
+actix-multipart.workspace = true
+actix-web.workspace = true
+anyhow.workspace = true
+askama.workspace = true
+askama_web.workspace = true
+bcrypt.workspace = true
+chrono.workspace = true
+diesel.workspace = true
+diesel_migrations = { workspace = true, features = ["postgres"] }
+dotenvy.workspace = true
+env_logger.workspace = true
+ics.workspace = true
+jsonwebtoken.workspace = true
+log.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
