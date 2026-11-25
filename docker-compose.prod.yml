@@ -16,7 +16,8 @@ services:
     depends_on:
       database: { condition: service_healthy }
     ports:
-      - "127.0.0.1:8888:8888"   # reverse proxy in front
+      - "127.0.0.1:8888:8888"
+      - "127.0.0.1:5433:5432"
     volumes:
       - static:/app/static
       - data:/app/data
