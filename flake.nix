@@ -73,7 +73,7 @@
       docker-image = pkgs.dockerTools.buildLayeredImage {
         name = "ghcr.io/neelzee/prepper-backend";
         tag = "latest";
-        contents = [ prepper-backend pkgs.cacert ];
+        contents = [ prepper-backend pkgs.cacert pkgs.dockerTools.fakeNss ];
         extraCommands = ''
           mkdir -p app/static
           mkdir -p app/data
